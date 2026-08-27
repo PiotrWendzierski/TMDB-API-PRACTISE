@@ -28,6 +28,31 @@ curl_close($curl);
 if ($err) {
   echo "cURL Error #:" . $err;
 } else {
-  echo $response;
+
+  //docode JSON to object
+  $data = json_decode($response);
+
+  echo "1. Decode JSON to object"."<br>";
+
+  $title_object = $data->title;
+  $adult_object = $data->adult;
+
+  echo "Title: ".$title_object;
+
+  if($adult_object == false) echo "<br>"."adult = false"."<br>";
+  else echo $adult_object;
+
+  //docode JSON to array
+  $data_array =json_decode($response, true);
+
+  echo "2. Decode JSON to array"."<br>";
+
+  $title_array = $data_array['title'];
+  $adult_array = $data_array['adult'];
+
+  echo "Title: ".$title_array;
+
+  if($adult_array == false) echo "<br>"."adult = false"."<br>";
+  else echo $adult_array;
 }
 ?>
