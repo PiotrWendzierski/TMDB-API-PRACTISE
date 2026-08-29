@@ -1,6 +1,7 @@
 <?php 
 
 require('config.php');
+require_once 'Movie.php';
 
 $curl = curl_init();
 
@@ -62,6 +63,14 @@ if ($err) {
   foreach($data_array['genres'] as $gatunek){
     echo "genre id: ". $gatunek['id']. " ". "genre name: " .$gatunek['name']."<br>";
   }
+
+  //new object 
+  $movie = new Movie("Czas Honoru", 8.2, "2011-2024", ["Wojenny", "Romans"]);
+
+  echo $movie->getTitle()."</br>";
+  echo $movie->getRating()."</br>";
+  echo $movie->getReleaseDate()."</br>";
+  print_r($movie->getGenres())."</br>";
 
 }
 ?>
