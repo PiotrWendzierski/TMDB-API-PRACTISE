@@ -2,6 +2,7 @@
 
 require('config.php');
 require_once 'Movie.php';
+require_once 'TmdbClient.php';
 
 $curl = curl_init();
 
@@ -64,13 +65,35 @@ if ($err) {
     echo "genre id: ". $gatunek['id']. " ". "genre name: " .$gatunek['name']."<br>";
   }
 
-  //new object 
+  //new object, we need deliver fields
   $movie = new Movie("Czas Honoru", 8.2, "2011-2024", ["Wojenny", "Romans"]);
 
   echo $movie->getTitle()."</br>";
   echo $movie->getRating()."</br>";
   echo $movie->getReleaseDate()."</br>";
-  print_r($movie->getGenres())."</br>";
+  print_r($movie->getGenres());
+  echo "<br><br>";
+
+
+  //our main target for now - using object based on Movie class but created via TmdbClient class
+  echo "--------------------------------------"."<br>";
+  echo "NEW MOVIE OBJECT BUT CREATED BY TMDB CLASS"."<br><br>";
+  //new object based on Tmdb class, we send him token, our Constans, token needed to connect with REST API, curl
+  $tmdb_client = new TmdbClient(TMDB_TOKEN);
+  //we need new object based on Movie class and exaxtly getMovie method from TmdbClient returns new object based on Movie class,
+  //so we need that, we need to deliver int to getMovie method, to get fields from only one movie
+  //tmdb returns object based on Movie class, so we can use her methods
+  //movie_name is our new object based on Movie class. 
+  // This object uses some fields exactly 11-th movie form tmdb (Movie class has constructor method)
+  $movie_name = $tmdb_client->getMovie(11);
+  //if we have new Movie object, we can finally use her methods ;)
+  //below not comments needed :)
+  echo $movie_name->getTitle()."<br>";
+  echo $movie_name->getRating()."<br>";
+  echo $movie_name->getReleaseDate()."<br>";
+  print_r($movie_name->getGenres());
+   echo "<br><br>";
+  echo "--------------------------------------"."<br>";
 
 }
 ?>

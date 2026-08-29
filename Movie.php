@@ -15,7 +15,7 @@ class Movie{
         $this->genres = $genres;
     }
 
-    //main public methods
+    //main public methods, writes fields from delivered fields (it it constructor)
     public function getTitle(): string{
         return $this->title;
     }
