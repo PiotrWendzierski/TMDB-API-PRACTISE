@@ -13,7 +13,7 @@ class TmdbClient{
         $this->token = $token;
     }
 
-    //curl + return new object based od Movie class
+    //curl + return new object based od Movie class, after ,,:" we write what will be returned
     public function getMovie(int $id): Movie{
         //curl, 1. curl init, pasted from TMDB API documentation
         $curl = curl_init();

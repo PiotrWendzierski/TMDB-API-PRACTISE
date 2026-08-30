@@ -3,6 +3,7 @@
 require('config.php');
 require_once 'Movie.php';
 require_once 'TmdbClient.php';
+require_once 'Database.php';
 
 $curl = curl_init();
 
@@ -92,8 +93,11 @@ if ($err) {
   echo $movie_name->getRating()."<br>";
   echo $movie_name->getReleaseDate()."<br>";
   print_r($movie_name->getGenres());
-   echo "<br><br>";
+  echo "<br><br>";
   echo "--------------------------------------"."<br>";
+
+  $db = new Database($dsn, $user, $password, $options);
+  $pdo_con = $db->getConnection();
 
 }
 ?>
