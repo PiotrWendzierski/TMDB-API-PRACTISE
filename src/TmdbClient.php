@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config/config.php';
+require_once __DIR__.'/../config/config.php';
 
 class TmdbClient{
 
@@ -54,12 +54,13 @@ class TmdbClient{
 
             //get properties from array (from array created from json)
             //we need them to deliver to constructor for object created from Movie class
+            $tmdb_id = $data_array['id'];
             $name = $data_array['title'];
             $rating = $data_array['vote_average'];
             $release_date = $data_array['release_date'];
             $genres = $data_array['genres'];
             //return new Movie class object
-            return new Movie($name, $rating, $release_date, $genres);
+            return new Movie($tmdb_id, $name, $rating, $release_date, $genres);
         }
     }
 }
