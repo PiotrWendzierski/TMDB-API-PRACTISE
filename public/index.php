@@ -1,9 +1,9 @@
 <?php 
 
-require('config.php');
-require_once 'Movie.php';
-require_once 'TmdbClient.php';
-require_once 'Database.php';
+require(__DIR__.'/../config/config.php');
+require_once __DIR__.'/../src/Movie.php';
+require_once __DIR__.'/../src/TmdbClient.php';
+require_once __DIR__.'/../src/Database.php';
 
 
 //our main target for now - using object based on Movie class but created via TmdbClient class
@@ -31,14 +31,20 @@ $db = new Database($dsn, $user, $password, $options);
 $pdo_con = $db->getConnection();
 
 //insert first movie to movies table
-$stmt = $pdo_con->prepare("INSERT INTO movies (tmdb_id, title, rating, release_date, genres) VALUES(:tmdb_id, :title, :rating, :release_date, :genres)");
-$stmt->execute(
-  [
-    ':tmdb_id' => 11,
-    ':title' => $movie_name->getTitle(),
-    ':rating' => $movie_name->getRating(),
-    ':release_date' => $movie_name->getReleaseDate(),
-    ':genres' => json_encode($movie_name->getGenres())
-  ]
-);
+try{
+  $stmt = $pdo_con->prepare("INSERT INTO movies (tmdb_id, title, rating, release_date, genres) VALUES(:tmdb_id, :title, :rating, :release_date, :genres)");
+  $stmt->execute(
+    [
+      ':tmdb_id' => 11,
+      ':title' => $movie_name->getTitle(),
+      ':rating' => $movie_name->getRating(),
+      ':release_date' => $movie_name->getReleaseDate(),
+      ':genres' => json_encode($movie_name->getGenres())
+    ]
+  );
+}
+catch(PDOException $e){
+  if($e->getCode() == 23000) echo "This movie alreade exists in database";
+  else throw $e;
+}
 ?>
