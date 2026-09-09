@@ -31,6 +31,22 @@ class PdoMovieRepository implements MovieRepositoryInterface{
     }
 
     public function findAll(): array{
+        $rows = $this->pdo->query("SELECT * FROM movies")->fetchAll();
+        //our array with Movie objects
+        $movies = [];
+        foreach($rows as $row){
+            $movie = new Movie(
+                (int)$row['tmdb_id'],
+                (string)$row['title'],
+                (float)$row['rating'],
+                (string)$row['release_date'],
+                //genres is JSON in db
+                json_decode($row['genres'], true)
+            );
 
+            $movies[] = $movie;
+        }
+        //returns array with Movies objects based on db
+        return $movies;
     } 
 }

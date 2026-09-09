@@ -6,6 +6,7 @@ require_once __DIR__.'/../src/TmdbClient.php';
 require_once __DIR__.'/../src/Database.php';
 require_once __DIR__.'/../src/MovieRepositoryInterface.php';
 require_once __DIR__.'/../src/PdoMovieRepository.php';
+require_once __DIR__.'/../src/InMemoryMovieRepository.php';
 
 
 //our main target for now - using object based on Movie class but created via TmdbClient class
@@ -39,7 +40,11 @@ $pdo_con = $db->getConnection();
 //new Movie object (tmdb API : id:12)
 $movie_name2 = $tmdb_client->getMovie(12);
 //via class which implements Interface
-$insert = new PdoMovieRepository($pdo_con);
+
+//new class, implements the same Interface like class before, file works fine
+//we use the same methods like before, even if they do not the same
+//only one line (below) to change, if two class implements the same Interface(s)
+$insert = new InMemoryMovieRepository();
 $insert->save($movie_name2);
 
 echo "<br><br>";
