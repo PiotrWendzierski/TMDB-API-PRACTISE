@@ -36,11 +36,21 @@ $pdo_con = $db->getConnection();
 //insert new record from API via Interface
 //=========================================
 
-//new Movie object (tmdb API : id:10)
+//new Movie object (tmdb API : id:12)
 $movie_name2 = $tmdb_client->getMovie(12);
 //via class which implements Interface
 $insert = new PdoMovieRepository($pdo_con);
 $insert->save($movie_name2);
+
+echo "<br><br>";
+echo "--------------------------------------"."<br>";
+
+//return movies from db as array of objects
+$movies = $insert->findAll();
+
+foreach($movies as $m){
+    echo $m->getTmdbId().". ".$m->getTitle()."<br>";
+}
 
 
 
